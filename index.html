@@ -1,0 +1,165 @@
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Twin Curriculum — Interactive</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <h1>🧠 AI Twin Curriculum</h1>
+      <p>Interactive knowledge base · GitHub Pages ready</p>
+    </div>
+    <div class="topbar-actions">
+      <div class="tab-switch">
+        <button id="tabCurriculum" class="btn btn-tab active">Curriculum</button>
+        <button id="tabNews" class="btn btn-tab">News</button>
+      </div>
+      <button id="themeToggle" class="btn">Toggle Theme</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <h3>Filters</h3>
+      <input id="searchInput" type="search" placeholder="Search title, concept, tags..." />
+
+      <div id="curriculumFilters">
+        <label>Tier</label>
+        <select id="tierFilter">
+          <option value="">All</option>
+          <option value="foundations">Foundations</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+          <option value="applied">Applied</option>
+        </select>
+
+        <label>Track</label>
+        <select id="trackFilter">
+          <option value="">All</option>
+          <option value="agent_engineering">Agent Engineering</option>
+          <option value="twin_architecture">Twin Architecture</option>
+          <option value="consulting">Consulting</option>
+        </select>
+
+        <label>Max Difficulty</label>
+        <select id="difficultyFilter">
+          <option value="">Any</option>
+          <option value="2">≤ 2</option>
+          <option value="3">≤ 3</option>
+          <option value="4">≤ 4</option>
+          <option value="5">≤ 5</option>
+        </select>
+      </div>
+
+      <div id="newsFilters" class="hidden">
+        <label>Source Tier</label>
+        <select id="sourceTierFilter">
+          <option value="">All</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+        </select>
+
+        <label>Urgency</label>
+        <select id="urgencyFilter">
+          <option value="">All</option>
+          <option value="watch">watch</option>
+          <option value="evaluate">evaluate</option>
+          <option value="act_now">act_now</option>
+        </select>
+      </div>
+
+      <button id="clearFilters" class="btn btn-secondary">Clear</button>
+
+      <hr />
+      <h3>Table of Contents</h3>
+      <nav id="toc"></nav>
+    </aside>
+
+    <section class="content">
+      <div id="stats" class="stats"></div>
+      <div id="cards"></div>
+    </section>
+  </main>
+
+  <template id="curriculumCardTemplate">
+    <article class="card">
+      <div class="card-header">
+        <span class="badge tier"></span>
+        <span class="badge track"></span>
+        <span class="meta difficulty"></span>
+        <span class="meta duration"></span>
+        <span class="meta id mono"></span>
+      </div>
+
+      <h2 class="title"></h2>
+      <p class="concept"></p>
+
+      <section class="callout why"></section>
+
+      <div class="chips keyterms"></div>
+      <div class="chips standards"></div>
+
+      <div class="two-col">
+        <div class="mini-card learn"></div>
+        <div class="mini-card apply"></div>
+      </div>
+
+      <details>
+        <summary>Reference Projects</summary>
+        <div class="refs"></div>
+      </details>
+
+      <details>
+        <summary>Resources</summary>
+        <ul class="resources"></ul>
+      </details>
+
+      <section class="callout consulting"></section>
+      <section class="callout hook"></section>
+
+      <div class="chips tags"></div>
+
+      <div class="card-footer">
+        <span class="next-link"></span>
+        <button class="btn copy-json">Copy JSON</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="newsCardTemplate">
+    <article class="card news-card">
+      <div class="card-header">
+        <span class="badge news">📰 NEWS</span>
+        <span class="badge source-tier"></span>
+        <span class="meta captured"></span>
+        <span class="meta id mono"></span>
+      </div>
+
+      <h2 class="title"></h2>
+      <p class="source-line"></p>
+      <p class="summary"></p>
+
+      <section class="callout why"></section>
+
+      <div class="impact-grid"></div>
+
+      <section class="callout action"></section>
+
+      <div class="chips related"></div>
+      <div class="chips tags"></div>
+
+      <div class="card-footer">
+        <button class="btn copy-json">Copy JSON</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js" type="module"></script>
+</body>
+</html>
