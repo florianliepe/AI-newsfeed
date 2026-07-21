@@ -1,0 +1,42 @@
+
+[
+  {
+    "nugget_id": "NEWS-2025-07-21-001",
+    "type": "news",
+    "captured_at": "2025-07-21T15:45:00+02:00",
+    "source": {"name": "modelcontextprotocol.io", "url": "https://modelcontextprotocol.io", "tier": "A"},
+    "headline": "MCP is now supported natively by OpenAI, Anthropic, Google, and major IDEs — the N×M integration era is ending.",
+    "summary": "Model Context Protocol, launched by Anthropic in Nov 2024, has been adopted by every major LLM vendor and coding IDE within 8 months. The ecosystem now has 500+ community servers plus first-party servers from Microsoft (Azure), GitHub, Cloudflare, and others. This makes MCP the de-facto standard for LLM↔tool integration.",
+    "why_it_matters": "Any OKF or knowledge platform not exposed as MCP by end of 2025 is architecturally behind. This is the leverage point of the decade for the twin platform.",
+    "impact": {"twin_platform": "high", "consulting_offering": "high", "urgency": "act_now"},
+    "action": "Add 'OKF-MCP server v0' to your GitHub project board this week; scaffold with the official Python SDK (`pip install mcp`).",
+    "related_nugget_ids": ["AITWIN-004", "AITWIN-012"],
+    "tags": ["mcp", "protocols", "ecosystem", "strategic"]
+  },
+  {
+    "nugget_id": "NEWS-2025-07-21-002",
+    "type": "news",
+    "captured_at": "2025-07-21T15:45:00+02:00",
+    "source": {"name": "Microsoft Research Blog", "url": "https://www.microsoft.com/en-us/research/project/graphrag/", "tier": "A"},
+    "headline": "Microsoft GraphRAG adds DRIFT search and lazy indexing — cost per corpus drops ~40%.",
+    "summary": "Recent GraphRAG releases introduced DRIFT (dynamic community traversal) for hybrid local+global queries and lazy indexing that defers community-summary generation until queried. Combined, they cut typical indexing cost dramatically while preserving multi-hop quality. Neo4j and LlamaIndex have shipped compatible implementations.",
+    "why_it_matters": "Removes the biggest complaint about GraphRAG (upfront indexing cost). Your twin can now afford GraphRAG from day one, not phase two.",
+    "impact": {"twin_platform": "high", "consulting_offering": "medium", "urgency": "evaluate"},
+    "action": "Re-run your ontology draft through GraphRAG with lazy mode enabled; benchmark cost delta.",
+    "related_nugget_ids": ["AITWIN-005", "AITWIN-008"],
+    "tags": ["graphrag", "cost-optimization", "retrieval"]
+  },
+  {
+    "nugget_id": "NEWS-2025-07-21-003",
+    "type": "news",
+    "captured_at": "2025-07-21T15:45:00+02:00",
+    "source": {"name": "n8n Blog", "url": "https://blog.n8n.io/", "tier": "B"},
+    "headline": "n8n's AI Agent node now includes native MCP client support and streaming responses.",
+    "summary": "n8n's LangChain-based AI Agent node has added first-class MCP client capabilities, letting workflows call any MCP server as a tool without custom code. Streaming outputs mean long-running twin queries can push partial results into downstream nodes.",
+    "why_it_matters": "Your existing n8n workflow can now consume your future OKF-MCP server directly — no bespoke HTTP glue.",
+    "impact": {"twin_platform": "high", "consulting_offering": "medium", "urgency": "act_now"},
+    "action": "Update n8n to latest; add one AI Agent node pointed at a public MCP server for smoke testing.",
+    "related_nugget_ids": ["AITWIN-004", "AITWIN-016"],
+    "tags": ["n8n", "mcp", "orchestration", "tooling"]
+  }
+]

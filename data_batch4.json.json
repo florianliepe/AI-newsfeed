@@ -1,0 +1,149 @@
+
+[
+  {
+    "nugget_id": "AITWIN-016",
+    "batch": 4,
+    "tier": "applied",
+    "track": "agent_engineering",
+    "title": "n8n as an Agent Orchestrator — Patterns & Anti-Patterns",
+    "duration_min": 15,
+    "concept": "n8n is a postman, not a brain. Use it for scheduled ingestion, fan-out/fan-in, human-in-the-loop gates, and cross-system glue. Keep reasoning inside MCP servers or LangGraph; keep prompts in git; never treat n8n's vector store as canonical.",
+    "why_it_matters": "The orchestrator-vs-agent-runtime split is the most common architecture mistake in enterprise AI workflows. Getting it right is a repeatable consulting insight.",
+    "key_terms": ["sub-workflow", "trigger", "wait node", "merge", "batch", "MCP client node", "human-in-the-loop"],
+    "okf_standards": [],
+    "learn_5min": "Read n8n's AI Agent node docs + one MCP client node tutorial. Confirm your n8n version has @n8n/n8n-nodes-langchain.mcpClient.",
+    "apply_10min": "Import the provided 'Daily Twin Nugget Delivery' workflow JSON; trigger manually; verify MCP → LLM → HTTP → Slack chain executes.",
+    "reference_projects": [
+      {"name": "n8n AI Starter Kit", "url": "https://github.com/n8n-io/self-hosted-ai-starter-kit", "description": "Official Docker template with n8n + Ollama + Qdrant + Postgres — production-grade starter."},
+      {"name": "n8n-io/n8n", "url": "https://github.com/n8n-io/n8n", "description": "Main repo; watch releases for MCP client node updates."},
+      {"name": "n8n community workflows", "url": "https://n8n.io/workflows/", "description": "Searchable library of shared workflows — steal patterns from."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "n8n AI Agent Node", "url": "https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.agent/"},
+      {"type": "docs", "title": "n8n MCP Client", "url": "https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.mcpclient/"},
+      {"type": "docs", "title": "n8n Sub-workflows", "url": "https://docs.n8n.io/flow-logic/subworkflows/"}
+    ],
+    "consulting_angle": "Sell 'AI Workflow Architecture Reviews' — 1-week engagement, delivered as an ADR fixing brain-in-the-postman anti-patterns.",
+    "twin_platform_hook": "n8n is layer 4 (orchestration). Calls MCP tools, never reasons. The provided workflow JSON is the daily-delivery skeleton.",
+    "difficulty": 4,
+    "tags": ["n8n", "orchestration", "mcp", "workflow", "applied"],
+    "next_nugget_id": "AITWIN-017"
+  },
+  {
+    "nugget_id": "AITWIN-017",
+    "batch": 4,
+    "tier": "applied",
+    "track": "twin_architecture",
+    "title": "Twin Reference Architecture End-to-End (5 Layers)",
+    "duration_min": 15,
+    "concept": "Five layers: L1 Storage (graph+vector+object+keyword), L2 Knowledge API (OKF-MCP server), L3 Agents (LangGraph supervisor + specialists), L4 Orchestration (n8n + GitHub Actions), L5 Surfaces (any MCP client). Dev loop: Codex → GitHub → CI (SHACL + Ragas + Twin Rubric) → deploy.",
+    "why_it_matters": "The single artifact that aligns every stakeholder in seconds. Missing this shared map is half of enterprise AI failure.",
+    "key_terms": ["layered architecture", "separation of concerns", "canonical vs derived", "hot-reload", "CI/CD for prompts"],
+    "okf_standards": ["RDF", "JSON-LD", "PROV-O", "schema.org"],
+    "learn_5min": "Trace one query through all 5 layers on paper: surface → orchestrator → agents → MCP server → storage → back.",
+    "apply_10min": "Create docs/ARCHITECTURE.md with the layer diagram, component versions table, and decision log. This becomes your ADR record.",
+    "reference_projects": [
+      {"name": "arc42", "url": "https://arc42.org/", "description": "Proven open-source template for pragmatic architecture documentation."},
+      {"name": "C4 model / Structurizr", "url": "https://c4model.com/", "description": "Layered architecture-as-code with rendered diagrams."},
+      {"name": "Backstage TechDocs", "url": "https://backstage.io/docs/features/techdocs/", "description": "Dev-portal-grade documentation rendering when the team scales."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "arc42 template", "url": "https://docs.arc42.org/home/"},
+      {"type": "docs", "title": "C4 Model", "url": "https://c4model.com/"},
+      {"type": "blog", "title": "ADR — Architecture Decision Records", "url": "https://adr.github.io/"}
+    ],
+    "consulting_angle": "'Twin Platform Blueprint' as a 2-week advisory package (€10–20k). Interview + tailored 5-layer map + ADR template. High margin, sets up implementation upsell.",
+    "twin_platform_hook": "Everything maps to a layer. When something breaks, you know where. When something new arrives, you know which layer it enters.",
+    "difficulty": 4,
+    "tags": ["architecture", "reference", "5-layer", "ADR", "applied"],
+    "next_nugget_id": "AITWIN-018"
+  },
+  {
+    "nugget_id": "AITWIN-018",
+    "batch": 4,
+    "tier": "applied",
+    "track": "agent_engineering",
+    "title": "Guardrails — Hallucination Control, PII, Prompt Injection",
+    "duration_min": 15,
+    "concept": "Three layered defenses: (1) citation gate rejects responses without OKF citations, (2) Presidio-based PII+secret redaction on input and output, (3) sandwich-wrap all untrusted content and require intent on every write tool.",
+    "why_it_matters": "A single hallucinated fact or PII leak kills a regulated-industry engagement. Guardrails move the twin from demo to deployable IP.",
+    "key_terms": ["grounding", "citation gate", "PII redaction", "sandwich prompt", "tool authorization", "rate limit", "output validator"],
+    "okf_standards": ["PROV-O"],
+    "learn_5min": "Skim OWASP Top 10 for LLM Applications + a canonical prompt-injection explainer.",
+    "apply_10min": "Save guardrails.py; run the demo; then wire guardrail_pipeline() as the final step of your Reasoning Agent and wrap_untrusted() around every retrieved snippet.",
+    "reference_projects": [
+      {"name": "Microsoft Presidio", "url": "https://github.com/microsoft/presidio", "description": "Production-grade PII detection and anonymization SDK."},
+      {"name": "NVIDIA NeMo Guardrails", "url": "https://github.com/NVIDIA/NeMo-Guardrails", "description": "Declarative rails (Colang) for input, output, and topic control."},
+      {"name": "Guardrails AI", "url": "https://github.com/guardrails-ai/guardrails", "description": "Structured output validation and policy enforcement."},
+      {"name": "Rebuff", "url": "https://github.com/protectai/rebuff", "description": "Open-source prompt-injection detector."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "OWASP Top 10 for LLM Applications", "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"},
+      {"type": "blog", "title": "Prompt Injection (Simon Willison)", "url": "https://simonwillison.net/tags/prompt-injection/"},
+      {"type": "docs", "title": "Presidio Documentation", "url": "https://microsoft.github.io/presidio/"}
+    ],
+    "consulting_angle": "Sell 'Twin Safety Baseline' as a fixed-scope €15k deliverable — citation gate + PII redaction + injection wrap + rubric rejection. Every regulated client buys it.",
+    "twin_platform_hook": "Guardrails wrap L3 (agents) and L2 (MCP writes). Log rejections to :GuardrailEvent nodes — compliance evidence + prompt-improvement backlog.",
+    "difficulty": 4,
+    "tags": ["guardrails", "safety", "pii", "prompt-injection", "compliance", "applied"],
+    "next_nugget_id": "AITWIN-019"
+  },
+  {
+    "nugget_id": "AITWIN-019",
+    "batch": 4,
+    "tier": "applied",
+    "track": "twin_architecture",
+    "title": "Continuous Learning Loops — Daily Interactions → OKF",
+    "duration_min": 15,
+    "concept": "Four loops at different cadences: reinforcement (real-time confidence nudges), consolidation (nightly transcript→facts), decay (weekly half-life), ratification (human-approved new nodes). Only humans mint new node types.",
+    "why_it_matters": "Makes it a twin, not a snapshot. Auditable via PROV-O — every confidence change tracked.",
+    "key_terms": ["reinforcement", "consolidation", "confidence decay", "half-life", "ratification", "signal-to-fact promotion"],
+    "okf_standards": ["PROV-O"],
+    "learn_5min": "Re-read Mem0 consolidation docs; skim Zep temporal knowledge graph concept.",
+    "apply_10min": "Save learning_loops.py; call reinforce() from your Reasoning Agent; schedule consolidate_session() and apply_decay() in n8n.",
+    "reference_projects": [
+      {"name": "Mem0 auto-fact-extraction", "url": "https://github.com/mem0ai/mem0", "description": "Reference consolidation implementation extracting facts from conversations."},
+      {"name": "Zep temporal KG", "url": "https://github.com/getzep/zep", "description": "Temporal knowledge graph with edge weighting and decay."},
+      {"name": "Letta reflection", "url": "https://github.com/letta-ai/letta", "description": "Self-editing memory research including consolidation heuristics."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "Mem0 Consolidation", "url": "https://docs.mem0.ai/core-concepts/memory-types"},
+      {"type": "paper", "title": "MemGPT reflection loops", "url": "https://arxiv.org/abs/2310.08560"},
+      {"type": "blog", "title": "Continuous learning for LLM apps", "url": "https://blog.langchain.dev/memory-for-agents/"}
+    ],
+    "consulting_angle": "'Continuous Learning Loop Design' as Phase-3 engagement (€20–30k, 4 weeks) after platform + safety are shipped.",
+    "twin_platform_hook": "Four loops turn the platform from installed to alive. Without them, OKF is a museum; with them, it compounds daily.",
+    "difficulty": 4,
+    "tags": ["continuous-learning", "memory", "reinforcement", "decay", "consolidation", "applied"],
+    "next_nugget_id": "AITWIN-020"
+  },
+  {
+    "nugget_id": "AITWIN-020",
+    "batch": 4,
+    "tier": "applied",
+    "track": "consulting",
+    "title": "Productizing the Twin — Offerings, Pricing, Delivery Motion",
+    "duration_min": 15,
+    "concept": "Five-rung offering ladder from €10k Blueprint → €250k Platform → €8k/mo Retainer. Diagnostic anchors the sales motion; each engagement improves the reference implementation that sells the next.",
+    "why_it_matters": "A twin as hobby = €0 asset. Productized = €200–500k/year practice with defensible IP (ontology + rubric + reference architecture are yours forever).",
+    "key_terms": ["offering ladder", "productized service", "anchor offer", "cross-sell path", "retainer conversion", "positioning statement"],
+    "okf_standards": [],
+    "learn_5min": "Skim Jonathan Stark 'Hourly Billing Is Nuts' + one Blair Enns 'Win Without Pitching' chapter.",
+    "apply_10min": "Draft docs/PRACTICE.md with positioning, ICP, 5-rung offering ladder, sales motion, proof assets, non-goals. Share with 3 peers this week.",
+    "reference_projects": [
+      {"name": "Jonathan Stark — Value Pricing", "url": "https://jonathanstark.com/", "description": "Canonical framework for productizing consulting services."},
+      {"name": "Win Without Pitching", "url": "https://www.winwithoutpitching.com/", "description": "Positioning manifesto for expert practices."},
+      {"name": "The Consulting Bible (Alan Weiss)", "url": "https://www.summitconsulting.com/", "description": "Pricing and offering structure playbook."}
+    ],
+    "resources": [
+      {"type": "blog", "title": "Value pricing basics (Jonathan Stark)", "url": "https://jonathanstark.com/blog"},
+      {"type": "docs", "title": "Win Without Pitching Manifesto", "url": "https://www.winwithoutpitching.com/manifesto/"},
+      {"type": "blog", "title": "Productizing consulting services", "url": "https://www.helpscout.com/blog/productized-service/"}
+    ],
+    "consulting_angle": "The twin platform IS the consulting flywheel — every engagement improves the reference implementation that sells the next engagement.",
+    "twin_platform_hook": "Your own twin becomes the demo asset that closes deals. Live > slides. Nothing else in the market does that yet.",
+    "difficulty": 3,
+    "tags": ["consulting", "productization", "pricing", "positioning", "practice", "applied"],
+    "next_nugget_id": null
+  }
+]

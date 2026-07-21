@@ -1,0 +1,152 @@
+
+[
+  {
+    "nugget_id": "AITWIN-011",
+    "batch": 3,
+    "tier": "advanced",
+    "track": "agent_engineering",
+    "title": "Agent Memory Architectures — Episodic, Semantic, Procedural",
+    "duration_min": 15,
+    "concept": "Three memory types map to three storage strategies: episodic=thread-scoped checkpoints (cheap, lossy), semantic=OKF graph (expensive, permanent), procedural=versioned prompts/skills (rare, reusable).",
+    "why_it_matters": "Conflating memory types is why enterprise agents forget preferences and never build expertise. Explicit separation is what makes a twin actually learn.",
+    "key_terms": ["checkpointer", "long-term store", "consolidation", "reflection", "working memory", "rolling summary"],
+    "okf_standards": ["PROV-O"],
+    "learn_5min": "Skim LangGraph Memory concept page + Mem0 README overview.",
+    "apply_10min": "Run the 60-line three-memory agent; test that semantic memories persist across thread_ids while episodic does not.",
+    "reference_projects": [
+      {"name": "LangGraph Memory", "url": "https://langchain-ai.github.io/langgraph/concepts/memory/", "description": "Checkpointer + long-term store abstractions native to LangGraph."},
+      {"name": "Mem0", "url": "https://github.com/mem0ai/mem0", "description": "Production long-term memory layer for LLM apps, with consolidation."},
+      {"name": "Zep", "url": "https://github.com/getzep/zep", "description": "Memory server emphasizing temporal reasoning and fact extraction."},
+      {"name": "Letta (MemGPT)", "url": "https://github.com/letta-ai/letta", "description": "Self-editing agent memory framework based on MemGPT research."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "LangGraph Memory Concepts", "url": "https://langchain-ai.github.io/langgraph/concepts/memory/"},
+      {"type": "docs", "title": "Mem0 Documentation", "url": "https://docs.mem0.ai/"},
+      {"type": "paper", "title": "MemGPT: Towards LLMs as Operating Systems", "url": "https://arxiv.org/abs/2310.08560"}
+    ],
+    "consulting_angle": "Memory architecture audits (episodic/semantic/procedural split) are a repeatable 2-week engagement — every enterprise agent has this pain.",
+    "twin_platform_hook": "Episodic=LangGraph MemorySaver (Redis in prod). Semantic=OKF graph via Mem0 cache. Procedural=versioned prompts in git.",
+    "difficulty": 4,
+    "tags": ["memory", "langgraph", "mem0", "cognitive-architecture", "advanced"],
+    "next_nugget_id": "AITWIN-012"
+  },
+  {
+    "nugget_id": "AITWIN-012",
+    "batch": 3,
+    "tier": "advanced",
+    "track": "twin_architecture",
+    "title": "Building Your OKF-MCP Server (Full Reference Implementation)",
+    "duration_min": 30,
+    "concept": "Full Python MCP server exposing the Neo4j-backed OKF as resources (readable slices), tools (query/upsert/search/provenance), and prompts (twin_voice, consulting_analysis). Every write is PROV-O-wrapped; every read is graph-first.",
+    "why_it_matters": "This is the keystone artifact — after this you have a platform, not a project. Every future capability plugs in as a new MCP primitive; every client (Claude, Codex, n8n, ChatGPT) consumes the same stable surface.",
+    "key_terms": ["MCP resource", "MCP tool", "MCP prompt", "stdio transport", "JSON-RPC", "server capability"],
+    "okf_standards": ["RDF", "JSON-LD", "PROV-O", "schema.org"],
+    "learn_5min": "Read modelcontextprotocol.io Server Concepts + Python SDK Quickstart.",
+    "apply_10min": "Deploy the full okf_mcp_server.py against a local Neo4j; register it in Claude Desktop via claude_desktop_config.json; ask a twin-voice question and observe tool calls + provenance citations.",
+    "reference_projects": [
+      {"name": "MCP Python SDK", "url": "https://github.com/modelcontextprotocol/python-sdk", "description": "Official Python SDK with FastMCP high-level API."},
+      {"name": "modelcontextprotocol/servers", "url": "https://github.com/modelcontextprotocol/servers", "description": "Reference server implementations to model your own after."},
+      {"name": "FastMCP", "url": "https://github.com/jlowin/fastmcp", "description": "Decorator-based Python API for building MCP servers rapidly."},
+      {"name": "Azure MCP Server", "url": "https://github.com/Azure/azure-mcp", "description": "Microsoft's enterprise-grade MCP server exposing Azure resources."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "MCP Server Concepts", "url": "https://modelcontextprotocol.io/docs/concepts/architecture"},
+      {"type": "docs", "title": "MCP Python SDK Quickstart", "url": "https://modelcontextprotocol.io/quickstart/server"},
+      {"type": "docs", "title": "Claude Desktop MCP Config", "url": "https://modelcontextprotocol.io/quickstart/user"}
+    ],
+    "consulting_angle": "A live twin with citations is the fastest deal-closer for MCP/knowledge-platform engagements — no slide deck competes.",
+    "twin_platform_hook": "This file IS the platform's API surface. All future capabilities = new tools/resources; n8n consumes via MCP client node.",
+    "difficulty": 5,
+    "tags": ["mcp", "server", "neo4j", "prov-o", "platform-core", "advanced"],
+    "next_nugget_id": "AITWIN-013"
+  },
+  {
+    "nugget_id": "AITWIN-013",
+    "batch": 3,
+    "tier": "advanced",
+    "track": "twin_architecture",
+    "title": "Persona Modeling — Encoding Andreas as Structured Data",
+    "duration_min": 15,
+    "concept": "Persona = four graph dimensions (identity, traits, voice markers, decision patterns), each with confidence + evidence. Retrievable, versionable, self-updating — not a prompt.",
+    "why_it_matters": "Prompt-based personas drift and can't be audited. Graph-based personas are queryable and self-updating — the difference between a chatbot cosplaying as you and a twin representing you.",
+    "key_terms": ["persona graph", "trait", "voice marker", "decision pattern", "confidence decay", "reinforcement"],
+    "okf_standards": ["RDF", "JSON-LD", "FOAF", "schema.org", "PROV-O"],
+    "learn_5min": "Re-read Nugget 7 with focus on twin:Trait, twin:VoiceSample, twin:DecisionPattern slots.",
+    "apply_10min": "Save the provided andreas_persona_v0.jsonld; upsert nodes via okf_upsert_fact from the MCP server; query via Claude Desktop.",
+    "reference_projects": [
+      {"name": "schema.org/Person + FOAF", "url": "https://schema.org/Person", "description": "Identity backbone for any human twin."},
+      {"name": "HEXACO / Big Five ontologies", "url": "https://hexaco.org/", "description": "Validated psychometric structures if you want scientific persona layers."},
+      {"name": "Cognitive Atlas", "url": "https://www.cognitiveatlas.org/", "description": "Reference vocabulary for reasoning styles and cognitive patterns."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "schema.org/Person", "url": "https://schema.org/Person"},
+      {"type": "docs", "title": "FOAF Vocabulary", "url": "http://xmlns.com/foaf/spec/"},
+      {"type": "docs", "title": "JSON-LD Playground", "url": "https://json-ld.org/playground/"}
+    ],
+    "consulting_angle": "'Executive Twin as-a-Service' — capture C-level voice + decision patterns as a persona graph; €25–50k per engagement + annual refresh.",
+    "twin_platform_hook": "Persona graph = OKF slice. Confidence decay via n8n cron; reinforcement from daily interactions (Nugget 19).",
+    "difficulty": 4,
+    "tags": ["persona", "identity", "traits", "voice", "decision-patterns", "advanced"],
+    "next_nugget_id": "AITWIN-014"
+  },
+  {
+    "nugget_id": "AITWIN-014",
+    "batch": 3,
+    "tier": "advanced",
+    "track": "agent_engineering",
+    "title": "Evaluating a Twin — Standard Evals + Custom Voice/Judgment Rubric",
+    "duration_min": 15,
+    "concept": "Two layers: (1) standard agent evals (Ragas faithfulness/relevancy, LangSmith trajectory), (2) custom 7-dim Twin Rubric — voice fidelity, judgment alignment, provenance, register, epistemic humility, domain grounding, anti-drift. Shippable = mean ≥4.0, no dim <3.",
+    "why_it_matters": "Without twin-specific evals you ship a fluent liar. The rubric is also a client-facing artifact that makes 'twin quality' negotiable.",
+    "key_terms": ["faithfulness", "trajectory", "rubric", "blind test", "LLM-as-judge", "golden set"],
+    "okf_standards": ["PROV-O"],
+    "learn_5min": "Skim Ragas README + LangSmith evaluation quickstart; note custom scorer hooks.",
+    "apply_10min": "Implement score_twin_response(); score one real twin exchange; save a 20-question golden set for regression testing.",
+    "reference_projects": [
+      {"name": "Ragas", "url": "https://github.com/explodinggradients/ragas", "description": "RAG-native evaluation library covering faithfulness, relevancy, context metrics."},
+      {"name": "DeepEval", "url": "https://github.com/confident-ai/deepeval", "description": "Pytest-style LLM evals with G-Eval and custom metrics."},
+      {"name": "LangSmith", "url": "https://docs.smith.langchain.com/", "description": "Trajectory + prompt evaluation and observability platform."},
+      {"name": "Promptfoo", "url": "https://github.com/promptfoo/promptfoo", "description": "CI-friendly prompt regression testing across models."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "Ragas Metrics", "url": "https://docs.ragas.io/en/stable/concepts/metrics/index.html"},
+      {"type": "docs", "title": "LangSmith Evaluation", "url": "https://docs.smith.langchain.com/evaluation"},
+      {"type": "docs", "title": "DeepEval Docs", "url": "https://docs.confident-ai.com/"}
+    ],
+    "consulting_angle": "Publish the 7-dim Twin Rubric as an acceptance-criteria artifact for any 'AI representative' engagement — prevents scope creep, makes 'done' measurable.",
+    "twin_platform_hook": "GitHub Action runs golden set on every push to prompts/ or ontology/; regressions block merges. That's the twin's CI/CD.",
+    "difficulty": 4,
+    "tags": ["evaluation", "ragas", "langsmith", "rubric", "quality", "advanced"],
+    "next_nugget_id": "AITWIN-015"
+  },
+  {
+    "nugget_id": "AITWIN-015",
+    "batch": 3,
+    "tier": "advanced",
+    "track": "twin_architecture",
+    "title": "Hybrid Retrieval Pipelines — BM25 + Dense + Graph + Rerank",
+    "duration_min": 15,
+    "concept": "Four-stage pipeline: BM25 (keyword recall) + dense vectors (semantic) + graph traversal (multi-hop) fused via RRF, then cross-encoder reranked. Cuts noise ~50% vs dense-only.",
+    "why_it_matters": "Retrieval quality caps twin quality — no LLM upgrade fixes bad retrieval. Hybrid+rerank is the ceiling-raiser.",
+    "key_terms": ["BM25", "dense retrieval", "RRF", "cross-encoder", "reranker", "multi-hop", "fusion"],
+    "okf_standards": ["RDF", "SPARQL"],
+    "learn_5min": "Read a Reciprocal Rank Fusion explainer + Cohere Rerank docs; skim Neo4j GDS traversal examples.",
+    "apply_10min": "Run the 90-line hybrid_retrieve() pipeline against your OKF corpus; log which stage contributes each final hit.",
+    "reference_projects": [
+      {"name": "rank-bm25", "url": "https://github.com/dorianbrown/rank_bm25", "description": "Pure-Python BM25 implementation, zero infrastructure."},
+      {"name": "BGE Reranker", "url": "https://huggingface.co/BAAI/bge-reranker-base", "description": "Open-source cross-encoder reranker, runs locally."},
+      {"name": "Neo4j GDS", "url": "https://neo4j.com/docs/graph-data-science/current/", "description": "Graph Data Science library for advanced traversal + community algorithms."},
+      {"name": "LlamaIndex QueryFusion", "url": "https://docs.llamaindex.ai/en/stable/examples/retrievers/reciprocal_rerank_fusion/", "description": "Pre-built RRF-style fusion retriever."}
+    ],
+    "resources": [
+      {"type": "paper", "title": "Reciprocal Rank Fusion (Cormack et al.)", "url": "https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf"},
+      {"type": "docs", "title": "Cohere Rerank", "url": "https://docs.cohere.com/docs/rerank-2"},
+      {"type": "docs", "title": "Qdrant Hybrid Queries", "url": "https://qdrant.tech/documentation/concepts/hybrid-queries/"}
+    ],
+    "consulting_angle": "Sell '4-stage retrieval upgrade' with before/after via the Nugget-14 rubric — 4–6 week deliverable, high measurable ROI.",
+    "twin_platform_hook": "Expose as single MCP tool okf_hybrid_retrieve; supervisor calls it, specialists get pre-ranked context. Retrieval-as-a-service inside the platform.",
+    "difficulty": 5,
+    "tags": ["retrieval", "hybrid", "bm25", "rerank", "rrf", "graph-traversal", "advanced"],
+    "next_nugget_id": "AITWIN-016"
+  }
+]

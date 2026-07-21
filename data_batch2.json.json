@@ -1,0 +1,155 @@
+
+[
+  {
+    "nugget_id": "AITWIN-006",
+    "batch": 2,
+    "tier": "intermediate",
+    "track": "agent_engineering",
+    "title": "LangGraph vs CrewAI vs AutoGen vs Semantic Kernel — Decision Matrix",
+    "duration_min": 15,
+    "concept": "Four production frameworks, each optimizing a different axis: LangGraph=control, CrewAI=speed, AutoGen=async scale, Semantic Kernel=enterprise plugins. All now support MCP, reducing lock-in.",
+    "why_it_matters": "Framework choice determines refactor cost when the twin moves from PoC to daily use. Match framework to workload shape, not hype.",
+    "key_terms": ["state graph", "actor model", "role", "plugin", "planner", "handoff", "checkpoint"],
+    "okf_standards": [],
+    "learn_5min": "Read LangGraph 'Why LangGraph?' + CrewAI concepts page + one AutoGen v0.4 tutorial.",
+    "apply_10min": "Run the provided LangGraph ReAct+OKF stub, then port to CrewAI; compare readability vs. control.",
+    "reference_projects": [
+      {"name": "LangGraph", "url": "https://github.com/langchain-ai/langgraph", "description": "Graph-based orchestration with checkpointing; best for stateful, cyclic agent workflows."},
+      {"name": "CrewAI", "url": "https://github.com/crewAIInc/crewAI", "description": "Role-based multi-agent framework optimized for rapid prototyping."},
+      {"name": "AutoGen", "url": "https://github.com/microsoft/autogen", "description": "Microsoft's async, event-driven multi-agent framework (v0.4+ actor model)."},
+      {"name": "Semantic Kernel", "url": "https://github.com/microsoft/semantic-kernel", "description": "Enterprise plugin architecture for .NET, Python, and Java."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "LangGraph Concepts", "url": "https://langchain-ai.github.io/langgraph/concepts/"},
+      {"type": "docs", "title": "CrewAI Documentation", "url": "https://docs.crewai.com/"},
+      {"type": "docs", "title": "AutoGen v0.4 Docs", "url": "https://microsoft.github.io/autogen/stable/"},
+      {"type": "docs", "title": "Semantic Kernel Docs", "url": "https://learn.microsoft.com/semantic-kernel/"}
+    ],
+    "consulting_angle": "Deliver a 1-page framework decision matrix as a client artifact — pick by workload shape, not brand.",
+    "twin_platform_hook": "LangGraph as outer orchestrator (checkpoints = resumable). Wrap CrewAI/AutoGen inside nodes if a role library helps.",
+    "difficulty": 3,
+    "tags": ["frameworks", "langgraph", "crewai", "autogen", "semantic-kernel", "intermediate"],
+    "next_nugget_id": "AITWIN-007"
+  },
+  {
+    "nugget_id": "AITWIN-007",
+    "batch": 2,
+    "tier": "intermediate",
+    "track": "twin_architecture",
+    "title": "Ontology Design for a Human Twin (FOAF + schema.org/Person + custom)",
+    "duration_min": 15,
+    "concept": "Compose 3 layers: identity/social (FOAF, schema:Person), knowledge/content (schema:CreativeWork, SIOC), persona/behavior (custom twin: namespace). Reuse before invent.",
+    "why_it_matters": "Ontology is the twin's DNA — right once = clean composition forever; wrong = refactor pain scaling with data volume.",
+    "key_terms": ["class", "property", "domain", "range", "cardinality", "namespace", "reuse"],
+    "okf_standards": ["RDF", "OWL", "JSON-LD", "FOAF", "SIOC", "schema.org"],
+    "learn_5min": "Skim schema.org/Person + FOAF Person/knows sections + SIOC intro paragraph.",
+    "apply_10min": "Build twin_ontology_v0.jsonld from the provided template, validate at json-ld.org/playground, then add one twin:Belief with evidence.",
+    "reference_projects": [
+      {"name": "FOAF vocabulary", "url": "http://xmlns.com/foaf/spec/", "description": "Canonical Friend-of-a-Friend ontology for people and social relations."},
+      {"name": "schema.org", "url": "https://schema.org/Person", "description": "Web-scale vocabulary; the Person class is the pragmatic default."},
+      {"name": "SIOC", "url": "http://rdfs.org/sioc/spec/", "description": "Semantically-Interlinked Online Communities — posts, threads, discussions."},
+      {"name": "Cognitive Atlas", "url": "https://www.cognitiveatlas.org/", "description": "Reference ontology for cognitive concepts — useful if modeling reasoning styles."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "schema.org/Person", "url": "https://schema.org/Person"},
+      {"type": "docs", "title": "FOAF Specification", "url": "http://xmlns.com/foaf/spec/"},
+      {"type": "docs", "title": "JSON-LD Playground", "url": "https://json-ld.org/playground/"},
+      {"type": "docs", "title": "SHACL Constraints", "url": "https://www.w3.org/TR/shacl/"}
+    ],
+    "consulting_angle": "Sell 'AI-ready knowledge modeling' workshops as billable deliverables — direct line to LLM ROI narrative.",
+    "twin_platform_hook": "Version ontology in GitHub (ontology/twin.ttl + twin.jsonld); every schema change is a PR; SHACL-lint via GitHub Actions.",
+    "difficulty": 3,
+    "tags": ["ontology", "foaf", "schema-org", "json-ld", "twin", "intermediate"],
+    "next_nugget_id": "AITWIN-008"
+  },
+  {
+    "nugget_id": "AITWIN-008",
+    "batch": 2,
+    "tier": "intermediate",
+    "track": "twin_architecture",
+    "title": "Cloud-Neutral Vector + Graph Reference Stack",
+    "duration_min": 15,
+    "concept": "Four storage roles (object, graph, vector, keyword) — pick per-layer across Azure/AWS/GCP/OSS. Graph is canonical; vector and BM25 are derived, rebuildable indexes.",
+    "why_it_matters": "Cloud-neutral design preserves negotiation leverage and lets the twin ship as a portable platform, not a vendor-locked artifact.",
+    "key_terms": ["canonical vs derived", "idempotent reindex", "property graph", "RDF triplestore", "namespace prefix"],
+    "okf_standards": ["RDF", "SPARQL"],
+    "learn_5min": "Read Neo4j Vector Search docs + Qdrant Quick Start + one hybrid-search tutorial from any cloud.",
+    "apply_10min": "Run the provided docker-compose (Neo4j+Qdrant+MinIO) locally and execute the Python round-trip to persist a node, embed, upsert, and resolve.",
+    "reference_projects": [
+      {"name": "Neo4j GenAI Stack", "url": "https://github.com/docker/genai-stack", "description": "Docker starter combining Neo4j + LLM + vector search."},
+      {"name": "Qdrant", "url": "https://github.com/qdrant/qdrant", "description": "Open-source vector DB with hybrid search and payload filtering."},
+      {"name": "Apache Jena Fuseki", "url": "https://jena.apache.org/documentation/fuseki2/", "description": "RDF triplestore with SPARQL endpoint — pure W3C route."},
+      {"name": "pgvector", "url": "https://github.com/pgvector/pgvector", "description": "Vector search in Postgres; zero-ops for small twins."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "Neo4j Vector Search", "url": "https://neo4j.com/docs/cypher-manual/current/indexes-for-vector-search/"},
+      {"type": "docs", "title": "Qdrant Quick Start", "url": "https://qdrant.tech/documentation/quickstart/"},
+      {"type": "docs", "title": "Azure AI Search Hybrid", "url": "https://learn.microsoft.com/azure/search/hybrid-search-overview"},
+      {"type": "docs", "title": "AWS OpenSearch Vector Engine", "url": "https://docs.aws.amazon.com/opensearch-service/latest/developerguide/vector-search.html"},
+      {"type": "docs", "title": "Vertex AI Vector Search", "url": "https://cloud.google.com/vertex-ai/docs/vector-search/overview"}
+    ],
+    "consulting_angle": "Sell 'cloud-neutral, per-layer choice' as CIO-language architecture — reframes AI as portable infrastructure.",
+    "twin_platform_hook": "Local dev = docker-compose (Neo4j+Qdrant+MinIO). Prod = swap each layer to managed equivalent with zero code change.",
+    "difficulty": 3,
+    "tags": ["architecture", "vector-db", "graph-db", "cloud-neutral", "intermediate"],
+    "next_nugget_id": "AITWIN-009"
+  },
+  {
+    "nugget_id": "AITWIN-009",
+    "batch": 2,
+    "tier": "intermediate",
+    "track": "agent_engineering",
+    "title": "Tool Use & Function Calling — Patterns That Survive Production",
+    "duration_min": 15,
+    "concept": "Five production patterns: narrow contracts, idempotency keys, structured errors with hints, progressive disclosure, MCP-first. Fixes 80% of agent reliability issues.",
+    "why_it_matters": "Most 'unreliable agent' complaints are sloppy tool contracts, not bad models. Contract quality = agent quality.",
+    "key_terms": ["JSON Schema", "idempotency", "retry policy", "structured error", "tool router", "progressive disclosure"],
+    "okf_standards": [],
+    "learn_5min": "Read OpenAI Function calling guide + Anthropic Tool use overview; note the schema convergence.",
+    "apply_10min": "Implement the okf_query tool from the code snippet; call it via both OpenAI and Anthropic; deliberately break it to observe hint-driven self-correction.",
+    "reference_projects": [
+      {"name": "OpenAI Cookbook — Function calling", "url": "https://cookbook.openai.com/examples/how_to_call_functions_with_chat_models", "description": "Canonical function-calling patterns from OpenAI engineering."},
+      {"name": "Anthropic Cookbook — Tool use", "url": "https://github.com/anthropics/anthropic-cookbook/tree/main/tool_use", "description": "Tool-use recipes including hint-driven correction and parallel calls."},
+      {"name": "modelcontextprotocol/servers", "url": "https://github.com/modelcontextprotocol/servers", "description": "Reference MCP tool implementations across many domains."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "OpenAI Function Calling", "url": "https://platform.openai.com/docs/guides/function-calling"},
+      {"type": "docs", "title": "Anthropic Tool Use", "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use"},
+      {"type": "docs", "title": "JSON Schema", "url": "https://json-schema.org/"}
+    ],
+    "consulting_angle": "Publish a 'Tool Contract Standard' as a client artifact; sell the standard and audits against it.",
+    "twin_platform_hook": "Every OKF operation = one narrow MCP tool; supervisor routes, specialists execute.",
+    "difficulty": 3,
+    "tags": ["tool-use", "function-calling", "mcp", "reliability", "intermediate"],
+    "next_nugget_id": "AITWIN-010"
+  },
+  {
+    "nugget_id": "AITWIN-010",
+    "batch": 2,
+    "tier": "intermediate",
+    "track": "twin_architecture",
+    "title": "PROV-O in Practice — Making Every Twin Answer Auditable",
+    "duration_min": 15,
+    "concept": "PROV-O tracks Entity (what), Activity (how), Agent (who) plus core relations (wasGeneratedBy, used, wasAttributedTo, wasDerivedFrom). Covers 80% of provenance needs.",
+    "why_it_matters": "Without provenance, the twin is a black box. With PROV-O, every answer is auditable — the line between toy and enterprise IP.",
+    "key_terms": ["entity", "activity", "agent", "attribution", "derivation", "bundle", "named graph"],
+    "okf_standards": ["PROV-O", "JSON-LD", "RDF"],
+    "learn_5min": "Read PROV-O Primer sections 1–3 (concepts + core diagram). Skip the OWL formalism first pass.",
+    "apply_10min": "Run the wrap_with_prov() Python snippet on one extracted fact; verify RDF triple count via rdflib/pyld.",
+    "reference_projects": [
+      {"name": "PROV-O W3C Primer", "url": "https://www.w3.org/TR/prov-primer/", "description": "Canonical W3C introduction to provenance modeling."},
+      {"name": "rdflib + pyld", "url": "https://github.com/RDFLib/rdflib", "description": "Python toolchain for RDF and JSON-LD manipulation."},
+      {"name": "neosemantics (n10s)", "url": "https://github.com/neo4j-labs/neosemantics", "description": "Neo4j plugin to ingest RDF/JSON-LD directly into property graph."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "PROV-O Ontology", "url": "https://www.w3.org/TR/prov-o/"},
+      {"type": "docs", "title": "PROV Primer", "url": "https://www.w3.org/TR/prov-primer/"},
+      {"type": "docs", "title": "JSON-LD 1.1", "url": "https://www.w3.org/TR/json-ld11/"}
+    ],
+    "consulting_angle": "In regulated industries, AI auditability is a board-level concern. PROV-O is the answer clients don't yet know to ask for.",
+    "twin_platform_hook": "Wrap every ingestion output with wrap_with_prov(); store as :Provenance subgraph in Neo4j; Reasoning Agent cites sources by default.",
+    "difficulty": 4,
+    "tags": ["prov-o", "provenance", "auditability", "json-ld", "governance", "intermediate"],
+    "next_nugget_id": "AITWIN-011"
+  }
+]
