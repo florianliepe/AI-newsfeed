@@ -1,0 +1,149 @@
+
+[
+  {
+    "nugget_id": "AITWIN-001",
+    "batch": 1,
+    "tier": "foundations",
+    "track": "twin_architecture",
+    "title": "The OKF Standards Landscape: RDF, OWL, SKOS, JSON-LD, PROV-O",
+    "duration_min": 15,
+    "concept": "OKF is a stack: RDF encodes facts as triples, OWL adds logical inference, SKOS structures vocabularies, JSON-LD is developer-friendly serialization, PROV-O captures provenance. Together they let machines share meaning, not just tokens.",
+    "why_it_matters": "Vector embeddings alone lose semantic structure. RDF/OWL preserve it so your twin can reason and cite sources — a non-negotiable for consulting credibility.",
+    "key_terms": ["triple", "ontology", "vocabulary", "serialization", "inference", "named graph"],
+    "okf_standards": ["RDF", "OWL", "SKOS", "JSON-LD", "PROV-O"],
+    "learn_5min": "Read W3C RDF 1.1 Primer sections 1–2, then JSON-LD 1.1 Primer section 1.",
+    "apply_10min": "Convert 5 facts about yourself into JSON-LD triples using schema.org/Person context; save as me.jsonld.",
+    "reference_projects": [
+      {"name": "Wikidata", "url": "https://www.wikidata.org", "description": "Largest live RDF knowledge graph — pattern library for real-world ontology use."},
+      {"name": "DBpedia", "url": "https://www.dbpedia.org", "description": "Wikipedia expressed as structured triples; canonical ontology example."},
+      {"name": "Schema.org", "url": "https://schema.org", "description": "Pragmatic web-scale vocabulary; use its Person, Organization, CreativeWork classes."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "RDF 1.1 Primer (W3C)", "url": "https://www.w3.org/TR/rdf11-primer/"},
+      {"type": "docs", "title": "JSON-LD 1.1 Primer (W3C)", "url": "https://www.w3.org/TR/json-ld11/"},
+      {"type": "docs", "title": "PROV-O Primer (W3C)", "url": "https://www.w3.org/TR/prov-primer/"},
+      {"type": "docs", "title": "SKOS Primer (W3C)", "url": "https://www.w3.org/TR/skos-primer/"}
+    ],
+    "consulting_angle": "Frame OKF as the governance layer for 'AI-ready knowledge' — beyond what vector-DB vendors offer.",
+    "twin_platform_hook": "OKF = source of truth; vectors and graph indexes are derived. Never let a derived index be canonical.",
+    "difficulty": 2,
+    "tags": ["okf", "semantic-web", "ontology", "foundations"],
+    "next_nugget_id": "AITWIN-002"
+  },
+  {
+    "nugget_id": "AITWIN-002",
+    "batch": 1,
+    "tier": "foundations",
+    "track": "twin_architecture",
+    "title": "Vector vs. Graph vs. Hybrid Retrieval — Choosing Your Memory Substrate",
+    "duration_min": 15,
+    "concept": "Vector search = fuzzy semantic similarity. Graph search = explicit multi-hop reasoning. Hybrid = both + BM25 keyword fallback. Real twins are always hybrid.",
+    "why_it_matters": "A twin must answer multi-hop, identity-grounded questions; pure vector stores can't traverse relationships or explain reasoning paths.",
+    "key_terms": ["embedding", "cosine similarity", "Cypher", "SPARQL", "reranking", "recall vs precision"],
+    "okf_standards": ["RDF", "SPARQL"],
+    "learn_5min": "Read Microsoft Research GraphRAG announcement + one Qdrant hybrid-search tutorial.",
+    "apply_10min": "Build a 3-column table: Query type → Best retriever → Why. Include multi-hop, semantic, and exact-match examples from your own work.",
+    "reference_projects": [
+      {"name": "Microsoft GraphRAG", "url": "https://github.com/microsoft/graphrag", "description": "Reference implementation of graph-augmented retrieval with community summarization."},
+      {"name": "Neo4j GenAI Stack", "url": "https://github.com/docker/genai-stack", "description": "Docker-compose starter combining Neo4j, LLM, and vector search."},
+      {"name": "LlamaIndex PropertyGraphIndex", "url": "https://docs.llamaindex.ai/en/stable/module_guides/indexing/lpg_index_guide/", "description": "Hybrid graph+vector retrieval in a single abstraction."}
+    ],
+    "resources": [
+      {"type": "blog", "title": "GraphRAG: Unlocking LLM discovery on narrative private data (Microsoft Research)", "url": "https://www.microsoft.com/en-us/research/blog/graphrag-unlocking-llm-discovery-on-narrative-private-data/"},
+      {"type": "docs", "title": "Qdrant Hybrid Search", "url": "https://qdrant.tech/documentation/concepts/hybrid-queries/"},
+      {"type": "docs", "title": "Azure AI Search Hybrid Retrieval", "url": "https://learn.microsoft.com/azure/search/hybrid-search-overview"}
+    ],
+    "consulting_angle": "Enterprise RAG plateaus at 60–70% quality when vector-only; selling hybrid architecture is a repeatable engagement pattern.",
+    "twin_platform_hook": "Canonical graph in Neo4j or Cosmos DB Gremlin; derived vectors in Azure AI Search / Qdrant; BM25 as safety net.",
+    "difficulty": 2,
+    "tags": ["retrieval", "rag", "graphrag", "hybrid-search", "foundations"],
+    "next_nugget_id": "AITWIN-003"
+  },
+  {
+    "nugget_id": "AITWIN-003",
+    "batch": 1,
+    "tier": "foundations",
+    "track": "agent_engineering",
+    "title": "Agent Architectures 101: ReAct, Plan-and-Execute, Reflexion, Multi-Agent",
+    "duration_min": 15,
+    "concept": "Four canonical patterns: ReAct (reason-act-observe), Plan-and-Execute (upfront decomposition), Reflexion (self-critique), Multi-Agent (supervisor/swarm/hierarchy). All modern frameworks are variations of these.",
+    "why_it_matters": "Wrong pattern choice is the #1 reason agent PoCs fail. Your twin will need a supervisor + specialists topology to separate ingestion, retrieval, reasoning, and tone.",
+    "key_terms": ["loop", "planner", "executor", "critic", "supervisor", "handoff", "state graph"],
+    "okf_standards": [],
+    "learn_5min": "Read Anthropic's 'Building effective agents' essay (2024).",
+    "apply_10min": "Sketch your twin's agent topology: nodes labeled with pattern + OKF slice each owns.",
+    "reference_projects": [
+      {"name": "LangGraph examples", "url": "https://github.com/langchain-ai/langgraph/tree/main/examples", "description": "Reference implementations of ReAct, plan-execute, reflexion, and multi-agent patterns."},
+      {"name": "OpenAI Swarm", "url": "https://github.com/openai/swarm", "description": "Minimal, readable multi-agent handoff library — great for learning."},
+      {"name": "Anthropic Cookbook", "url": "https://github.com/anthropics/anthropic-cookbook", "description": "Production-grade agent recipes from Anthropic engineering."}
+    ],
+    "resources": [
+      {"type": "blog", "title": "Building effective agents (Anthropic)", "url": "https://www.anthropic.com/research/building-effective-agents"},
+      {"type": "paper", "title": "ReAct: Synergizing Reasoning and Acting in Language Models", "url": "https://arxiv.org/abs/2210.03629"},
+      {"type": "paper", "title": "Reflexion: Language Agents with Verbal Reinforcement Learning", "url": "https://arxiv.org/abs/2303.11366"}
+    ],
+    "consulting_angle": "Use Anthropic's 'start simple' framing to deflate over-engineered client demands and land higher-margin scoped engagements.",
+    "twin_platform_hook": "MVP twin = one ReAct agent with OKF tools. Add supervisor+specialists only after a failure mode is observed twice.",
+    "difficulty": 2,
+    "tags": ["agents", "react", "multi-agent", "architecture", "foundations"],
+    "next_nugget_id": "AITWIN-004"
+  },
+  {
+    "nugget_id": "AITWIN-004",
+    "batch": 1,
+    "tier": "foundations",
+    "track": "agent_engineering",
+    "title": "Model Context Protocol (MCP): The USB-C for AI Agents",
+    "duration_min": 15,
+    "concept": "MCP is an open protocol (Anthropic, Nov 2024) standardizing how LLMs access tools, resources, and prompts. Servers expose primitives; any MCP-compatible client can consume them without custom integration.",
+    "why_it_matters": "Solves the N×M integration problem. Build your OKF as an MCP server once → every agent, IDE, and workflow can query it. Highest-leverage architectural bet for the twin platform.",
+    "key_terms": ["JSON-RPC", "stdio transport", "SSE/HTTP transport", "server", "client", "host"],
+    "okf_standards": [],
+    "learn_5min": "Read modelcontextprotocol.io Introduction + spec Overview section.",
+    "apply_10min": "Install the filesystem or GitHub MCP server into Claude Desktop or Cursor; query your own repo in natural language.",
+    "reference_projects": [
+      {"name": "modelcontextprotocol/servers", "url": "https://github.com/modelcontextprotocol/servers", "description": "Official reference MCP servers: filesystem, GitHub, Postgres, Slack, and more."},
+      {"name": "Awesome MCP Servers", "url": "https://github.com/punkpeye/awesome-mcp-servers", "description": "Community catalog of 100+ MCP servers across domains."},
+      {"name": "Azure MCP Server", "url": "https://github.com/Azure/azure-mcp", "description": "Microsoft's official MCP server exposing Azure resources to any MCP client."}
+    ],
+    "resources": [
+      {"type": "docs", "title": "MCP Introduction", "url": "https://modelcontextprotocol.io/introduction"},
+      {"type": "docs", "title": "MCP Specification", "url": "https://spec.modelcontextprotocol.io/"},
+      {"type": "blog", "title": "Introducing MCP (Anthropic)", "url": "https://www.anthropic.com/news/model-context-protocol"}
+    ],
+    "consulting_angle": "MCP strategy is the 2025 version of the 'API strategy' conversation. Lead the client narrative before vendors do.",
+    "twin_platform_hook": "OKF-MCP Server becomes the twin platform's public interface — reusable across n8n, Codex, Claude, ChatGPT.",
+    "difficulty": 3,
+    "tags": ["mcp", "protocols", "integration", "agents", "foundations"],
+    "next_nugget_id": "AITWIN-005"
+  },
+  {
+    "nugget_id": "AITWIN-005",
+    "batch": 1,
+    "tier": "foundations",
+    "track": "twin_architecture",
+    "title": "GraphRAG vs. Classic RAG — Why Graphs Enable Grounded Judgment",
+    "duration_min": 15,
+    "concept": "Classic RAG retrieves by vector similarity, blind to relationships. GraphRAG extracts entities+relations into a graph, detects communities, generates summaries, and retrieves using structure + vectors — enabling thematic and multi-hop answers.",
+    "why_it_matters": "The twin's core value is grounded judgment across fragmented sources — precisely what GraphRAG delivers, with defensible provenance paths.",
+    "key_terms": ["entity extraction", "community detection", "Leiden algorithm", "local search", "global search", "community summary"],
+    "okf_standards": ["RDF", "OWL", "PROV-O"],
+    "learn_5min": "Read the Microsoft GraphRAG 'How it works' section on the GitHub README.",
+    "apply_10min": "Take 3 past consulting reports; list 10 entities + 15 relationships you'd extract. This becomes your ontology v0.",
+    "reference_projects": [
+      {"name": "Microsoft GraphRAG", "url": "https://github.com/microsoft/graphrag", "description": "Reference GraphRAG implementation with local + global query modes."},
+      {"name": "Neo4j LLM Graph Builder", "url": "https://github.com/neo4j-labs/llm-graph-builder", "description": "No-code entity extraction from documents into Neo4j."},
+      {"name": "LlamaIndex Knowledge Graph Index", "url": "https://docs.llamaindex.ai/en/stable/examples/index_structs/knowledge_graph/KnowledgeGraphDemo/", "description": "Lighter alternative for KG-augmented retrieval."}
+    ],
+    "resources": [
+      {"type": "paper", "title": "From Local to Global: A GraphRAG Approach (Microsoft)", "url": "https://arxiv.org/abs/2404.16130"},
+      {"type": "repo", "title": "microsoft/graphrag", "url": "https://github.com/microsoft/graphrag"},
+      {"type": "blog", "title": "GraphRAG at Microsoft Research", "url": "https://www.microsoft.com/en-us/research/project/graphrag/"}
+    ],
+    "consulting_angle": "GraphRAG is the natural phase-2 upsell after a client's vector-only RAG PoC plateaus.",
+    "twin_platform_hook": "Ingestion pipeline: content → LLM extraction → merge into OKF graph → embed nodes → cache community summaries for global queries.",
+    "difficulty": 3,
+    "tags": ["graphrag", "rag", "knowledge-graph", "reasoning", "foundations"],
+    "next_nugget_id": "AITWIN-006"
+  }
+]
